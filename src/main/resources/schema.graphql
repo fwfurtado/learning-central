@@ -1,0 +1,31 @@
+
+# scalar Int Float String ID
+
+scalar Duration
+scalar DateTime
+
+type Instructor {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Course {
+    id: ID!
+    code: String!
+    description: String!
+    workload: Duration
+}
+
+type Class {
+    id: ID!
+    start: DateTime!
+    course: Course!
+    instructor: Instructor!
+}
+
+type Query {
+    instructors(id: ID): [Instructor]!
+    courses(id: ID): [Course]!
+    classes(id: ID): [Class]!
+}

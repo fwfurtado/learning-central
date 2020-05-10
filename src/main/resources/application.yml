@@ -1,0 +1,13 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/learning
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+graphql:
+  tools:
+    schema-location-pattern: "**/*.graphql"
