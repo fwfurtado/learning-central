@@ -26,7 +26,7 @@ public class DurationCoercing implements Coercing<Duration, String> {
     public Duration parseValue(Object input) throws CoercingParseValueException {
         var durationString = (String) input;
 
-        return DurationStyle.SIMPLE.parse(durationString);
+        return DurationStyle.detectAndParse(durationString);
     }
 
     @Override

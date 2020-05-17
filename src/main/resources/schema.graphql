@@ -1,10 +1,21 @@
-
 # scalar Int Float String ID
 
 scalar Duration
 scalar DateTime
 
-type Instructor {
+interface Person {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Student implements Person {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+type Instructor implements Person {
     id: ID!
     name: String!
     email: String!
@@ -13,7 +24,8 @@ type Instructor {
 type Course {
     id: ID!
     code: String!
-    description: String!
+    name: String!
+    description: String
     workload: Duration
 }
 
@@ -27,5 +39,51 @@ type Class {
 type Query {
     instructors(id: ID): [Instructor]!
     courses(id: ID): [Course]!
-    classes(id: ID): [Class]!
+    classes(id: ID, first: Int, after: String): ClassConnection @connection(for: "Class")
+}
+
+input AddInstructor {
+    name: String!
+    email: String!
+}
+
+input StudentInput {
+    name: String!
+    email: String!
+}
+
+input CourseInput {
+    code: String!
+    name: String!
+    description: String
+    workload: Duration!
+}
+
+input ClassInput {
+    startDate: DateTime!
+    courseId: ID!
+    instructorId: ID!
+}
+
+input StudentRegistrationInput {
+    classId: ID!
+    studentId: ID!
+}
+
+
+type Mutation {
+    addInstructor(form: AddInstructor!): Instructor
+    addCourse(form: CourseInput!): Course
+    addClass(form: ClassInput!): Class
+    addStudent(form: StudentInput!): Student
+    registerStudent(form: StudentRegistrationInput!): Class
+}
+
+type NewStudentRegistered {
+    when: DateTime
+    student: Student
+}
+
+type Subscription {
+    listenerNewStudentsIn(classId:ID!): NewStudentRegistered!
 }
